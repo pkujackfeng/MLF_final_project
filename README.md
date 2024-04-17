@@ -1,7 +1,7 @@
 # Detecting Financial Fraud with First Digit Law
 #### Feng Xi, 2201212354
 ## 1. Introduction to First Digit Law
-> Have you found that, numbers in real life usually begin with 1? 
+> Have you found that, numbers in real life usually begin with 1, and seldom begin with 9?  
 
 > First Digit Law, or Benford's Law, tells us that, if we collect the first digit of positive numbers, we will probably see the following distribution:
 
