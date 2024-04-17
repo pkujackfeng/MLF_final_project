@@ -15,7 +15,7 @@ First digit Law:
 >
 > $$ P_{b,l,d}= \log_b⁡(1+\frac{l}{d}) $$
 >
-> We let b=10 (in decimal system) and l=1,
+> We let $b=10$ (in decimal system) and $l=1$,
 > 
 > $$ P_{d}= \log_{10}⁡(1+\frac{1}{d}) $$
 > 
