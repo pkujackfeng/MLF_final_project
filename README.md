@@ -104,7 +104,7 @@ $$
 >
 > - 0: No
 >
-> y depends on the auditor's opinion on the financial statements:
+> y is determinde by the auditor's opinion on the financial statements:
 > 
 >   - y = 0, Standard unqualified opinion
 >
