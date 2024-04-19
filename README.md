@@ -157,8 +157,6 @@ $$
 ### 4.6 The Processed Data
 > ![图片](https://github.com/pkujackfeng/MLF_final_project/assets/90912432/0d4d7635-5d1d-4448-a347-d9d282dec28e)
 
-> ![图片](https://github.com/pkujackfeng/MLF_final_project/assets/90912432/bfa21b5a-2aac-439c-8fd3-bdcbc4669633)
-
 ## 5. Model Results
 ### 5.1 Logistic Regression；AUC = 60%
 <img src="https://github.com/pkujackfeng/MLF_final_project/assets/90912432/50cabcce-91ae-45bc-bae4-9b229a413e61" width="400" height="250">
