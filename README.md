@@ -133,6 +133,9 @@ $$
 
 ### 4.4 Data aquisition
 > We get numbers of financial statements through WIND API
+
+> Then we compute the first digit frequency, and the distribution is as follows:
+> 
 > <img src="https://github.com/pkujackfeng/MLF_final_project/assets/90912432/a0fffa48-7e74-49de-a35a-a62f9bcc6e88/to/image" width="600" height="400" alt="Samples_Benford's Law">
 
 > We get auditor's opinion on financial statements through WIND EXCEL Plugger
@@ -140,8 +143,6 @@ $$
 ### 4.5 Data processing
 > $X_i$ describes the difference between real frequency and Benford frequency:
 >
-> > ![图片](https://github.com/pkujackfeng/MLF_final_project/assets/90912432/46b6a104-a435-4190-bdb6-e7088cae41a9)
-> > 
 > $$ X_i = \frac{{\rm{frequency \ \ of \ \ beginning \ \ with \ \ digit \ \ i}}}{{\rm{Benford \ \  frequency\ \ [i]}}} $$
 
 > A big issue is that the dataset is imbalanced, there are too few samples with y= 0.
