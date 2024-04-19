@@ -132,7 +132,7 @@ $$
 > - why exclude finance stocks: finance companies have many unique financial accounts, which don't apply to non-finance companies
 
 ### 4.4 Data aquisition
-> We get numbers of financial statements through WIND API
+> We get the ~300 positive numbers (or financial accounts)  of each financial statement through WIND API
 
 > Then we compute the first digit frequency, and the distribution is as follows:
 > 
