@@ -76,7 +76,9 @@ $$
 > My undergraduate thesis is to prove First Digit Law with Fourier Transform.
 > 
 > Basic idea is similar.
-> 
+>
+> - <img src="https://github.com/pkujackfeng/MLF_final_project/assets/90912432/a15ec870-982e-4213-9699-0a3180afd0f4/to/image" width="500" height="400" alt="Benford's Law with physics constants">
+>
 > The proof with Laplace/Fourier transform requires that the PDF of x should meet the requirements of having Laplace/Fourier Transform.
 > 
 >  The requiments of having Fourier Transform are lower than that of having Laplace Transform.
