@@ -147,7 +147,9 @@ $$
 
 > A big issue is that the dataset is imbalanced, there are too few samples with y= 0.
 >
-> So within the trainning set we do under-sampling using *RandomUnderSampler: we randomly drop some negative samples (y=0) until the number of negative samples equal to the number of positive samples. 
+> So within the trainning set we do under-sampling using **RandomUnderSampler**：
+>
+> we randomly drop some negative samples (y=0) until the number of negative samples equal to the number of positive samples. 
 >
 > - Before RandomUnderSampler, 36/279=12% samples are y=1.
 > - After RandomUnderSampler, 36/72=50% samples are y=1.
