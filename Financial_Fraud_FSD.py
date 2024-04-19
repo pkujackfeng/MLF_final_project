@@ -22,8 +22,9 @@ from sklearn.metrics import roc_auc_score
 import warnings
 # Ignore all userWarning
 warnings.filterwarnings('ignore', category=UserWarning)
-from WindPy import w
-w.start()
+# 0. Start WindPy,the WIND API, which needs permission
+# from WindPy import w
+# w.start()
 
 ## 1. Get stock list of CSI_500 excluding finance stocks, and the companies should go public before 2015 and not be delisted before 2022
 ## It takes time to access 'ipo' and 'sec_status' from WIND API, so we export the stock list to csv 
