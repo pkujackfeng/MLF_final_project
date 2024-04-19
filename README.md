@@ -136,11 +136,14 @@ $$
 
 > We get auditor's opinion on financial statements through WIND EXCEL Plugger
 
+> <img src="https://github.com/pkujackfeng/MLF_final_project/assets/90912432/a0fffa48-7e74-49de-a35a-a62f9bcc6e88/to/image" width="600" height="400" alt="Samples_Benford's Law">
+
 ### 4.5 Data processing
 > $X_i$ describes the difference between real frequency and Benford frequency:
-> 
+>
+> > ![图片](https://github.com/pkujackfeng/MLF_final_project/assets/90912432/46b6a104-a435-4190-bdb6-e7088cae41a9)
+> > 
 > $$ X_i = \frac{{\rm{frequency \ \ of \ \ beginning \ \ with \ \ digit \ \ i}}}{{\rm{Benford \ \  frequency\ \ [i]}}} $$
-> ![图片](https://github.com/pkujackfeng/MLF_final_project/assets/90912432/46b6a104-a435-4190-bdb6-e7088cae41a9)
 
 > A big issue is that the dataset is imbalanced, there are too few samples with y= 0.
 >
@@ -148,6 +151,10 @@ $$
 >
 > - Before RandomUnderSampler, 36/279=12% samples are y=1.
 > - After RandomUnderSampler, 36/72=50% samples are y=1.
+
+### 4.6 The Processed Data
+> ![图片](https://github.com/pkujackfeng/MLF_final_project/assets/90912432/0d4d7635-5d1d-4448-a347-d9d282dec28e)
+
 
 ## 5. Model Results
 ### 5.1 Logistic Regression；AUC = 60%
