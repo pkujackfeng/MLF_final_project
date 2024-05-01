@@ -91,6 +91,19 @@ $$
 > ![图片](https://github.com/pkujackfeng/MLF_final_project/assets/90912432/898d67ac-352e-4ec9-a248-a9acf5907169)
 >
 > Gotion's distribution seems to violate the First Digit Law, and was really caught financial fraud in July 2022.
+> 
+> So, we suggest that, if a company's first digit frequency differs a lot from the Benford's Law, it's more likely that the company has made financial fraud.
+>
+> We will use different machine learning methods to prove our thoughts, where independent varaibles are the difference between a company's first digit frequency, and the dependent variable is whether the company has made financial fraud.
+
+> In previous literature, 
+>
+> - [Benford's Law is used to detect fraud of credit card transactions in social media](https://ieeexplore.ieee.org/abstract/document/9016804); 
+>
+> - [Bao[2020] used machine learning methods (without using Benford's Law) on original numbers of three financial statements to detect accounting fraud for U.S. stocks](https://onlinelibrary.wiley.com/doi/full/10.1111/1475-679X.12292)
+>
+> To the best of my knowledge, our method, using Benford's Law on all positive original numbers of three financial statments to detect financial fraud for public traded companiess, has not been conducted before. 
+
 
 ## 4. Data
 ### 4.1 Variable
@@ -146,6 +159,12 @@ $$
 > $X_i$ describes the difference between real frequency and Benford frequency:
 >
 > $$ X_i = \frac{{\rm{frequency \ \ of \ \ beginning \ \ with \ \ digit \ \ i}}}{{\rm{Benford \ \  frequency\ \ [i]}}} $$
+>
+> We use the largest $X_i$ within the 5 years (2015~2019).
+
+> Obviously, the first digit frequency of Fraud Group differs more from Benford Frequency than that of No Fraud Group:
+![output](https://github.com/pkujackfeng/MLF_final_project/assets/90912432/52926052-5bc2-416f-9b08-26e2b535254b)
+
 
 > A big issue is that the dataset is imbalanced, there are too few samples with y= 0.
 >
@@ -160,23 +179,36 @@ $$
 > ![图片](https://github.com/pkujackfeng/MLF_final_project/assets/90912432/0d4d7635-5d1d-4448-a347-d9d282dec28e)
 
 ## 5. Model Results
-### 5.1 Logistic Regression；AUC = 60%
-<img src="https://github.com/pkujackfeng/MLF_final_project/assets/90912432/50cabcce-91ae-45bc-bae4-9b229a413e61" width="400" height="250">
-<img src="https://github.com/pkujackfeng/MLF_final_project/assets/90912432/cb503e78-edb9-4193-a8f4-215be157235b" width="300" height="250">
+> Our task is to tell whether there is financial fraud, so we care about two index: 
+> - 1) recall
+>
+> - 2) auc
 
-### 5.2 MLPClassifier: AUC = 56%
-<img src="https://github.com/pkujackfeng/MLF_final_project/assets/90912432/a6477aa6-6c68-4e1a-b74f-3a9cd73fc4b4" width="400" height="250">
-<img src="https://github.com/pkujackfeng/MLF_final_project/assets/90912432/987d9a63-9332-446d-ade3-9e1caf2e9b0d" width="300" height="250">
+> Logistic Regression and SVM get the best result, while Decision Tress gives the worst result:
+> 
+|  | Logistic Regression | MLPClassfier | SVM | Decision Tree | Random Forest |
+| :---: | :---: | :---: | :---: | :---: | :---: |
+| Recall | 69% | 62% | 69% | 44% | 62% |
+| AUC | 63% | 62% | 63% | 56% | 63% |
+> ![img](https://github.com/pkujackfeng/MLF_final_project/assets/90912432/25a2311d-e820-431e-b17a-93186ec0f3ad)
 
-### 5.3 SVM: AUC = 60%
-<img src="https://github.com/pkujackfeng/MLF_final_project/assets/90912432/9993f92a-d930-4105-9d6f-d7d4761bdfba" width="400" height="250">
-<img src="https://github.com/pkujackfeng/MLF_final_project/assets/90912432/0fce3638-7d3e-47ad-9f5b-523c0e1a5206" width="300" height="250">
+### 5.1 Logistic Regression；Recall = 69%, AUC = 63%
+<img src="https://github.com/pkujackfeng/MLF_final_project/assets/90912432/a4814667-f53f-46ef-bfa3-68261670b547" width="400" height="250">
+<img src="https://github.com/pkujackfeng/MLF_final_project/assets/90912432/3b158be1-5c48-4b3b-9d8b-e3abaecc9d25" width="300" height="250">
 
-### 5.4 Decision Tree: AUC = 56%
-<img src="https://github.com/pkujackfeng/MLF_final_project/assets/90912432/8cabaf9f-55ab-4ccd-b429-2414add0c6b4" width="400" height="250">
-<img src="https://github.com/pkujackfeng/MLF_final_project/assets/90912432/2b811aa6-5841-4813-a238-21ad56f83e23" width="300" height="250">
+### 5.2 MLPClassifier: Recall = 62%, AUC = 62%
+<img src="https://github.com/pkujackfeng/MLF_final_project/assets/90912432/6464ef17-4837-4094-bd9c-d7ddb48f683b" width="400" height="250">
+<img src="https://github.com/pkujackfeng/MLF_final_project/assets/90912432/f50a5742-d56c-401c-8dbc-7a0ac567c021" width="300" height="250">
 
-### 5.5 Random Forest: AUC = 61%
-<img src="https://github.com/pkujackfeng/MLF_final_project/assets/90912432/0f8daa82-f628-47c6-a34f-acdd34efe63c" width="400" height="250">
-<img src="https://github.com/pkujackfeng/MLF_final_project/assets/90912432/02114c21-0d81-4903-a44e-04f85d81524a" width="300" height="250">
+### 5.3 SVM: Recall = 69%, AUC = 63%
+<img src="https://github.com/pkujackfeng/MLF_final_project/assets/90912432/2a4abf62-96b9-4197-a0df-cecaf0d1b1f5" width="400" height="250">
+<img src="https://github.com/pkujackfeng/MLF_final_project/assets/90912432/0f1ff371-1256-488d-9181-ef620d65b56d" width="300" height="250">
+
+### 5.4 Decision Tree:Recall = 44%, AUC = 56%
+<img src="https://github.com/pkujackfeng/MLF_final_project/assets/90912432/79f38601-8384-4bf2-8dd9-562adf82d472" width="400" height="250">
+<img src="https://github.com/pkujackfeng/MLF_final_project/assets/90912432/fbced0f8-3437-4e9d-bc60-29c5ca24a0ea" width="300" height="250">
+
+### 5.5 Random Forest: Recall = 62%, AUC = 63%
+<img src="https://github.com/pkujackfeng/MLF_final_project/assets/90912432/64f0c29e-2e41-4f13-bf71-5c74f54270c4" width="400" height="250">
+<img src="https://github.com/pkujackfeng/MLF_final_project/assets/90912432/207f27e7-4db4-4e21-b011-2dabde8e983e" width="300" height="250">
 
