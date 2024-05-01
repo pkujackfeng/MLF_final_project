@@ -103,9 +103,21 @@ X.columns = ['x1','x2','x3','x4','x5','x6','x7','x8','x9']
 y = pd.read_csv('y.csv')
 y = y.set_index('stock')
 
-## 5. Put X and y together
+## 5. Put X and y together, and see the difference between y=0 group and y=1 group
 X_y = pd.concat([X, y], axis=1)
 print(X_y)
+No_Fraud_Group = X_y[X_y['y']==0]
+Fraud_Group = X_y[X_y['y']==1]
+No_Fraud_Group_Frequency = []
+Fraud_Group_Frequency = []
+for i in range(9):
+    No_Fraud_Group_Frequency.append(No_Fraud_Group.iloc[:,i].mean())
+    Fraud_Group_Frequency.append(Fraud_Group.iloc[:,i].mean())
+plt.plot([1,2,3,4,5,6,7,8,9],No_Fraud_Group_Frequency,label='No Fraud Group')
+plt.plot([1,2,3,4,5,6,7,8,9],Fraud_Group_Frequency,label='Fraud Group')
+plt.legend()
+plt.title('First digit frequency ÷ Benford frequency')
+plt.show()
 y = y.values.ravel()
 
 ## 6. Split into train set and test set
@@ -147,7 +159,7 @@ X_train = X_train.iloc[:,:9]
 X_test = X_test.iloc[:,:9]
 
 ## 9. For each model, we define a function to evaluate the result for test set
-def show_result(y_true, y_predict):
+def show_result(y_true, y_predict, y_predict_prob):
     # Confusion matrix
     matrix_test = confusion_matrix(y_true, y_predict)
     print("Confusion matrix:")
@@ -156,7 +168,7 @@ def show_result(y_true, y_predict):
     report_test = classification_report(y_true, y_predict)
     print("Classification report:")
     print(report_test)
-    fpr,tpr,thresholds1 = roc_curve(y_true,y_predict,drop_intermediate = False)
+    fpr,tpr,thresholds1 = roc_curve(y_true,y_predict_prob,drop_intermediate = False)
     # ROC curve
     plt.plot(fpr,tpr,'r*-')
     plt.plot([0,1],[0,1])
@@ -171,22 +183,31 @@ def show_result(y_true, y_predict):
     plt.show()
     # AUC score
     print("AUC score:")
-    print(roc_auc_score(y_true,y_predict))
+    print(roc_auc_score(y_true,y_predict_prob))
 
 # 10.1 LogisticRegression
 LR = LogisticRegression(solver='liblinear')
 LR_param_grid = {
-    'C': [10,20,50,75,100,150,200,250,500,600,700,800,900,1000,1100,1200,1300,1400,1500],
+    'C': [10,20,50,75,100,110,120,130,140,150,160,170,180,190,200,250,500],
     'penalty': ['l1', 'l2'] }
 LR_grid_search = GridSearchCV(LR, LR_param_grid, cv=5, return_train_score=True)
 LR_grid_search.fit(X_train, y_train)
 # Grid search result for hyperparameters
 print("Grid Search for best model", LR_grid_search.best_params_)
 LR_best_model = LR_grid_search.best_estimator_
-y_LR_predict = LR_best_model.predict(X_test)
-show_result(y_test, y_LR_predict)
+y_LR_predict_prob_temp = LR_best_model.predict_proba(X_test)
+y_LR_predict_prob = []
+for i in range(len(y_LR_predict_prob_temp)):
+    y_LR_predict_prob.append(y_LR_predict_prob_temp[i,1])
+y_LR_predict = []
+for i in range(len(y_LR_predict_prob)):
+    if y_LR_predict_prob[i] > 0.5:
+        y_LR_predict.append(1)
+    else:
+        y_LR_predict.append(0)
+show_result(y_test, y_LR_predict, y_LR_predict_prob)
 
-# # 10.2 MLP Classifier
+# 10.2 MLP Classifier
 MLP_grid = {
     'solver': ['adam'],
     'learning_rate_init': [0.001],
@@ -199,20 +220,38 @@ MLP_grid_search.fit(X_train, y_train)
 # Grid search result for hyperparameters
 print("Grid Search for best model", MLP_grid_search.best_params_)
 MLP_best_model = MLP_grid_search.best_estimator_
-y_MLP_predict = MLP_best_model.predict(X_test)
-show_result(y_test, y_MLP_predict)
+y_MLP_predict_prob_temp = MLP_best_model.predict_proba(X_test)
+y_MLP_predict_prob = []
+for i in range(len(y_MLP_predict_prob_temp)):
+    y_MLP_predict_prob.append(y_MLP_predict_prob_temp[i,1])
+y_MLP_predict = []
+for i in range(len(y_MLP_predict_prob)):
+    if y_MLP_predict_prob[i] > 0.5:
+        y_MLP_predict.append(1)
+    else:
+        y_MLP_predict.append(0)
+show_result(y_test, y_MLP_predict, y_MLP_predict_prob)
 
 # 10.3 SVM
 SVM_grid = {'C': [500,750,1000,1200,1500,1800,2000], 
 	'gamma': [10, 0.1, 0.03, 0.01, 0.008, 0.005], 
 	'kernel': ['rbf']} 
-SVM_grid_search = GridSearchCV(SVC(), SVM_grid, refit = True, verbose = 3) 
+SVM_grid_search = GridSearchCV(SVC(probability=True), SVM_grid, refit = True, verbose = 3) 
 SVM_grid_search.fit(X_train, y_train)
 # Grid search result for hyperparameters
 print("Grid Search for best model", SVM_grid_search.best_params_)
 SVM_best_model = SVM_grid_search.best_estimator_
-y_SVM_predict = SVM_best_model.predict(X_test)
-show_result(y_test, y_SVM_predict)
+y_SVM_predict_prob_temp = SVM_best_model.predict_proba(X_test)
+y_SVM_predict_prob = []
+for i in range(len(y_SVM_predict_prob_temp)):
+    y_SVM_predict_prob.append(y_SVM_predict_prob_temp[i,1])
+y_SVM_predict = []
+for i in range(len(y_SVM_predict_prob)):
+    if y_SVM_predict_prob[i] > 0.5:
+        y_SVM_predict.append(1)
+    else:
+        y_SVM_predict.append(0)
+show_result(y_test, y_SVM_predict, y_SVM_predict_prob)
 
 # 10.4 Decision tree
 DT_grid = {'max_depth': [2,4,6,8,10],
@@ -225,8 +264,17 @@ DT_grid_search.fit(X_train, y_train)
 # Grid search result for hyperparameters
 print("Grid Search for best model", DT_grid_search.best_params_)
 DT_best_model = DT_grid_search.best_estimator_
-y_DT_predict = DT_best_model.predict(X_test)
-show_result(y_test, y_DT_predict)
+y_DT_predict_prob_temp = DT_best_model.predict_proba(X_test)
+y_DT_predict_prob = []
+for i in range(len(y_DT_predict_prob_temp)):
+    y_DT_predict_prob.append(y_DT_predict_prob_temp[i,1])
+y_DT_predict = []
+for i in range(len(y_DT_predict_prob)):
+    if y_DT_predict_prob[i] > 0.5:
+        y_DT_predict.append(1)
+    else:
+        y_DT_predict.append(0)
+show_result(y_test, y_DT_predict, y_DT_predict_prob)
 
 # 10.5 Random forest
 RF_grid = {"n_estimators":[800,1000,1200],
@@ -238,5 +286,14 @@ RF_grid_search.fit(X_train, y_train)
 # Grid search result for hyperparameters
 print("Grid Search for best model", RF_grid_search.best_params_)
 RF_best_model = RF_grid_search.best_estimator_
-y_RF_predict = RF_best_model.predict(X_test)
-show_result(y_test, y_RF_predict)
+y_RF_predict_prob_temp = RF_best_model.predict_proba(X_test)
+y_RF_predict_prob = []
+for i in range(len(y_RF_predict_prob_temp)):
+    y_RF_predict_prob.append(y_RF_predict_prob_temp[i,1])
+y_RF_predict = []
+for i in range(len(y_RF_predict_prob)):
+    if y_RF_predict_prob[i] > 0.5:
+        y_RF_predict.append(1)
+    else:
+        y_RF_predict.append(0)
+show_result(y_test, y_RF_predict, y_RF_predict_prob)
